@@ -1,3 +1,4 @@
+import traceback
 import requests, json
 
 MARKETS = {'es-AR', 'en-AU', 'de-AT', 'nl-BE', 'fr-BE', 'pt-BR', 'en-CA', 'fr-CA', 'es-CL', 'da-DK', 'fi-FI', 'fr-FR',
@@ -57,15 +58,18 @@ def search(key, query, count=150, offset=0, mkt='en-US', safesearch='OFF'):
         HEADERS['Ocp-Apim-Subscription-Key'] = key
         url = 'https://api.cognitive.microsoft.com/bing/v5.0/search?'
         params = {'q': query, 'count': count, 'offset': offset, 'mkt': mkt, 'safesearch': safesearch}
-        results = requests.get(url, params=params, headers=HEADERS)
-        return results
+        try:
+            results = requests.get(url, params=params, headers=HEADERS)
+            return results
+        except:
+            traceback.print_stack()
 
 
 def extract_web_links(resp_text):
     resp_json = json.loads(resp_text)
-    webpages = resp_json['webPages']['value']
+    webPages = resp_json['webPages']['value']
     links = set()
-    for x in webpages:
+    for x in webPages:
         if 'url' in x:
             links.add(x['url'])
         if 'deepLinks' in x:

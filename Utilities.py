@@ -1,13 +1,12 @@
 import json
 import requests
-from collections import deque
 from urllib.parse import urlparse
-
+from math import fabs
 
 def fix_url(string):
     url = urlparse(string)
     if url[0] == "":
-        url = urlparse('https://'+url[1])
+        url = urlparse('https://' + url[1])
 
 
 def get_extension(url):
@@ -75,25 +74,10 @@ def update_local_suffixes():
         print("Update Failed")
 
 
-def get_all_combos(seedlist, length):
-    combos = deque()
-    combos.extend(seedlist)
-    for x in range(0, length - 1):
-        for x in range(0, len(combos)):
-            current = combos.popleft()
-            for x in seedlist:
-                combos.append(current + x)
-    return list(combos)
 
-
-def get_all_capitalization(word):
-    words = []
-    for x in range(0, len((word))):
-        for y in range(0, len(word)):
-            words.append(word[x:y].upper())
-
-def swap_items(dest,origin,list_):
-    if origin == dest or type(list_) is not list:
+def swap_items(dest, origin, list_):
+    if origin == dest or type(list_) is not list or \
+                    fabs(dest) > len(list_)-1 or fabs(origin) > len(list_)-1:
         return
     temp = list_[origin]
     list_[origin] = list_[dest]

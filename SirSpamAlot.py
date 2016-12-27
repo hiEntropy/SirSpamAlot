@@ -1,7 +1,9 @@
 import sys
 import Spider
 
+'''
 
+'''
 def main():
     args = sys.argv
     argsc = len(args)
@@ -13,7 +15,7 @@ def main():
         if profile and start:
             Spider.spider_pig(start,profile)
         elif profile:
-            Spider.spider_pig('car dealers',profile)
+            Spider.spider_pig('car%20dealers',profile)
         elif start:
             Spider.spider_pig(start,'demographics.json')
         else:
